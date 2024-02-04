@@ -1,0 +1,44 @@
+{% extends 'base/main.html' %}
+{% block content %}
+
+
+<div class="header-bar">
+    <div>
+        <h1>Привет {{request.user|title}} </h1>
+        <h3 style="margin:0">У вас <i>{{count}}</i> незавершенная{{count|pluralize}} задача{{count|pluralize}} </h3>
+    </div>
+
+</div>
+
+
+{% if request.user.is_authenticated %}
+    <p>{{request.user}}</p>
+    <a href="{% url 'logout' %}">Выйти</a>
+{% else %}
+    <a href="{% url 'login' %}">Войти</a>
+{% endif %}
+<hr>
+<h1>Мой список заметок</h1>
+<a href="{% url 'task-create' %}"> Новая заметка </a>
+
+<form method="get">
+    <input type="text" name="search-area" value="{{search_input}}">
+    <input type="submit" value="Поиск">
+</form>
+<table>
+    <tr>
+        <th>Item</th>
+        <th></th>
+    </tr>
+    {% for task in tasks %}
+    <tr>
+        <td>{{task.title}}</td>
+        <td><a href ="{% url 'task-update' task.id %}">Редактировать</a></td>
+        <td><a href ="{% url 'task-delete' task.id %}">Удалить</a></td>
+    </tr>
+    {% empty %}
+        <h3>Нет заметок</h3>
+    {% endfor %}
+</table>
+{% endblock %}
+

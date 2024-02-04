@@ -1,0 +1,9 @@
+{% extends 'base/main.html' %}
+{% block content %}
+<a href="{% url 'tasks' %}">Назад</a>
+<form method="post">
+   {% csrf_token %}
+    <p>Вы точно хотите удалить заметку? "{{task}}"</p>
+    <input type="submit", value="delete">
+</form>
+{% endblock %}
